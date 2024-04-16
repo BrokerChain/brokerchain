@@ -1,0 +1,34 @@
+{
+    "compilerOptions": {
+        "composite": true,
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "target": "ESNext",
+        "jsx": "react",
+        // "incremental": true,
+        // "tsBuildInfoFile": ".tsbuildinfo",
+        "lib": ["ESNext", "dom", "dom.iterable"],
+        "skipLibCheck": true,
+        "strict": false,
+        "noImplicitReturns": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedParameters": false,
+        "strictPropertyInitialization": false,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": false,
+        "strictNullChecks": false,
+        // "outDir": "dist",
+        "sourceMap": false,
+        // because we use vis-network
+        "esModuleInterop": false,
+        "allowSyntheticDefaultImports": false,
+        "forceConsistentCasingInFileNames": true,
+        // for x-aarobot
+        "experimentalDecorators": true
+    }
+    // "compileOnSave": true
+    // "include": ["src"],
+    // "exclude": ["dist"]
+}

@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "composite": true
+    },
+    "files": [],
+    "references": [
+        {
+            "path": "./x-brokerchain-store"
+        },
+        {
+            "path": "./pty"
+        },
+        {
+            "path": "./storage-simple-coll"
+        },
+        {
+            "path": "./task-queue"
+        },
+        {
+            "path": "./zip"
+        }
+    ]
+}
