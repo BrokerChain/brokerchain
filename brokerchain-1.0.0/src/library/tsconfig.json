@@ -17,7 +17,16 @@
             "path": "./task-queue"
         },
         {
+            "path": "./vite"
+        },
+        {
+            "path": "./x-brokerchain-dashboard"
+        },
+        {
             "path": "./x-brokerchain-store"
+        },
+        {
+            "path": "./x-brokerchain-website"
         },
         {
             "path": "./zip"

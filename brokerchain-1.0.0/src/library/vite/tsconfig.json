@@ -1,0 +1,12 @@
+{
+    "extends": "../../../tsconfig.base.json",
+    "compilerOptions": {
+        "outDir": "../../../dist/library/vite",
+        "rootDir": "."
+    },
+    "references": [
+        {
+            "path": "../../myutils"
+        }
+    ]
+}

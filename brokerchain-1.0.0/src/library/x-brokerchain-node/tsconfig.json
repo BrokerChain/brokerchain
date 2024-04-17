@@ -10,6 +10,12 @@
         },
         {
             "path": "../x-brokerchain-store"
+        },
+        {
+            "path": "../x-brokerchain-website"
+        },
+        {
+            "path": "../x-brokerchain-dashboard"
         }
     ]
 }
