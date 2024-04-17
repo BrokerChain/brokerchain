@@ -9,18 +9,20 @@ export interface Input {
             fake?: { order: "ascending" | "descending" };
             create_time?: { order: "ascending" | "descending" };
             update_time?: { order: "ascending" | "descending" };
+            address?: { order: "ascending" | "descending" };
+            port?: { order: "ascending" | "descending" };
         }[];
     };
     page?: { offset: number; limit: number };
 }
 
 export interface OutputEmpty {
-    list: { id: string; fake?: boolean; create_time: string; update_time: string }[];
+    list: { id: string; fake?: boolean; create_time: string; update_time: string; address: string; port: number }[];
     total_count: number;
 }
 
 export interface OutputOk {
-    list: { id: string; fake?: boolean; create_time: string; update_time: string }[];
+    list: { id: string; fake?: boolean; create_time: string; update_time: string; address: string; port: number }[];
     total_count: number;
 }
 
@@ -76,6 +78,8 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
                     if (field === "fake") return;
                     if (field === "create_time") return;
                     if (field === "update_time") return;
+                    if (field === "address") return;
+                    if (field === "port") return;
                     throw new Error("item contains unknown field: " + field);
                 });
 
@@ -162,6 +166,48 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
                         throw new Error("item.update_time.order is not a valid string enum value");
                     }
                 }
+
+                if (item.address !== undefined) {
+                    log.println("item.address must be object");
+                    if (typeof item.address !== "object" || item.address === null) {
+                        throw new Error("item.address is not object");
+                    }
+
+                    Object.keys(item.address).forEach((field) => {
+                        if (field === "order") return;
+                        throw new Error("item.address contains unknown field: " + field);
+                    });
+
+                    log.println("item.address.order must be string");
+                    if (typeof item.address.order !== "string") {
+                        throw new Error("item.address.order is not string");
+                    }
+
+                    if (new Set(["ascending", "descending"]).has(item.address.order) === false) {
+                        throw new Error("item.address.order is not a valid string enum value");
+                    }
+                }
+
+                if (item.port !== undefined) {
+                    log.println("item.port must be object");
+                    if (typeof item.port !== "object" || item.port === null) {
+                        throw new Error("item.port is not object");
+                    }
+
+                    Object.keys(item.port).forEach((field) => {
+                        if (field === "order") return;
+                        throw new Error("item.port contains unknown field: " + field);
+                    });
+
+                    log.println("item.port.order must be string");
+                    if (typeof item.port.order !== "string") {
+                        throw new Error("item.port.order is not string");
+                    }
+
+                    if (new Set(["ascending", "descending"]).has(item.port.order) === false) {
+                        throw new Error("item.port.order is not a valid string enum value");
+                    }
+                }
             });
         }
 
@@ -234,20 +280,22 @@ export function _copy_output_empty(v: any): OutputEmpty {
         return { list: [], total_count: 0 };
     }
 
-    function copy_list(v: any): { id: string; fake?: boolean; create_time: string; update_time: string }[] {
+    function copy_list(v: any): { id: string; fake?: boolean; create_time: string; update_time: string; address: string; port: number }[] {
         return Array.isArray(v) ? v.map(copy_item) : [];
 
-        function copy_item(v: any): { id: string; fake?: boolean; create_time: string; update_time: string } {
+        function copy_item(v: any): { id: string; fake?: boolean; create_time: string; update_time: string; address: string; port: number } {
             if (typeof v === "object" && v !== null) {
                 const obj = {
                     id: copy_id(v.id),
                     fake: v.fake !== undefined && v.fake !== null ? copy_fake(v.fake) : undefined,
                     create_time: copy_create_time(v.create_time),
-                    update_time: copy_update_time(v.update_time)
+                    update_time: copy_update_time(v.update_time),
+                    address: copy_address(v.address),
+                    port: copy_port(v.port)
                 };
                 return obj;
             } else {
-                return { id: "", create_time: "", update_time: "" };
+                return { id: "", create_time: "", update_time: "", address: "", port: 0 };
             }
 
             function copy_id(v: any): string {
@@ -288,6 +336,14 @@ export function _copy_output_empty(v: any): OutputEmpty {
                         return "";
                     }
                 }
+            }
+
+            function copy_address(v: any): string {
+                return typeof v === "string" ? v : "";
+            }
+
+            function copy_port(v: any): number {
+                return typeof v === "number" ? v : 0;
             }
         }
     }
@@ -319,20 +375,22 @@ export function _copy_output_ok(v: any): OutputOk {
         return { list: [], total_count: 0 };
     }
 
-    function copy_list(v: any): { id: string; fake?: boolean; create_time: string; update_time: string }[] {
+    function copy_list(v: any): { id: string; fake?: boolean; create_time: string; update_time: string; address: string; port: number }[] {
         return Array.isArray(v) ? v.map(copy_item) : [];
 
-        function copy_item(v: any): { id: string; fake?: boolean; create_time: string; update_time: string } {
+        function copy_item(v: any): { id: string; fake?: boolean; create_time: string; update_time: string; address: string; port: number } {
             if (typeof v === "object" && v !== null) {
                 const obj = {
                     id: copy_id(v.id),
                     fake: v.fake !== undefined && v.fake !== null ? copy_fake(v.fake) : undefined,
                     create_time: copy_create_time(v.create_time),
-                    update_time: copy_update_time(v.update_time)
+                    update_time: copy_update_time(v.update_time),
+                    address: copy_address(v.address),
+                    port: copy_port(v.port)
                 };
                 return obj;
             } else {
-                return { id: "", create_time: "", update_time: "" };
+                return { id: "", create_time: "", update_time: "", address: "", port: 0 };
             }
 
             function copy_id(v: any): string {
@@ -373,6 +431,14 @@ export function _copy_output_ok(v: any): OutputOk {
                         return "";
                     }
                 }
+            }
+
+            function copy_address(v: any): string {
+                return typeof v === "string" ? v : "";
+            }
+
+            function copy_port(v: any): number {
+                return typeof v === "number" ? v : 0;
             }
         }
     }

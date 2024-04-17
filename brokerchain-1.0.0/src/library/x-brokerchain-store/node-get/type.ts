@@ -7,11 +7,11 @@ export interface Input {
 }
 
 export interface OutputNone {
-    node: { id: string; fake?: boolean; create_time: string; update_time: string };
+    node: { id: string; fake?: boolean; create_time: string; update_time: string; address: string; port: number };
 }
 
 export interface OutputOk {
-    node: { id: string; fake?: boolean; create_time: string; update_time: string };
+    node: { id: string; fake?: boolean; create_time: string; update_time: string; address: string; port: number };
 }
 
 export interface OutputFail {}
@@ -67,20 +67,22 @@ export function _copy_output_none(v: any): OutputNone {
         };
         return obj;
     } else {
-        return { node: { id: "", create_time: "", update_time: "" } };
+        return { node: { id: "", create_time: "", update_time: "", address: "", port: 0 } };
     }
 
-    function copy_node(v: any): { id: string; fake?: boolean; create_time: string; update_time: string } {
+    function copy_node(v: any): { id: string; fake?: boolean; create_time: string; update_time: string; address: string; port: number } {
         if (typeof v === "object" && v !== null) {
             const obj = {
                 id: copy_id(v.id),
                 fake: v.fake !== undefined && v.fake !== null ? copy_fake(v.fake) : undefined,
                 create_time: copy_create_time(v.create_time),
-                update_time: copy_update_time(v.update_time)
+                update_time: copy_update_time(v.update_time),
+                address: copy_address(v.address),
+                port: copy_port(v.port)
             };
             return obj;
         } else {
-            return { id: "", create_time: "", update_time: "" };
+            return { id: "", create_time: "", update_time: "", address: "", port: 0 };
         }
 
         function copy_id(v: any): string {
@@ -121,6 +123,14 @@ export function _copy_output_none(v: any): OutputNone {
                     return "";
                 }
             }
+        }
+
+        function copy_address(v: any): string {
+            return typeof v === "string" ? v : "";
+        }
+
+        function copy_port(v: any): number {
+            return typeof v === "number" ? v : 0;
         }
     }
 }
@@ -143,20 +153,22 @@ export function _copy_output_ok(v: any): OutputOk {
         };
         return obj;
     } else {
-        return { node: { id: "", create_time: "", update_time: "" } };
+        return { node: { id: "", create_time: "", update_time: "", address: "", port: 0 } };
     }
 
-    function copy_node(v: any): { id: string; fake?: boolean; create_time: string; update_time: string } {
+    function copy_node(v: any): { id: string; fake?: boolean; create_time: string; update_time: string; address: string; port: number } {
         if (typeof v === "object" && v !== null) {
             const obj = {
                 id: copy_id(v.id),
                 fake: v.fake !== undefined && v.fake !== null ? copy_fake(v.fake) : undefined,
                 create_time: copy_create_time(v.create_time),
-                update_time: copy_update_time(v.update_time)
+                update_time: copy_update_time(v.update_time),
+                address: copy_address(v.address),
+                port: copy_port(v.port)
             };
             return obj;
         } else {
-            return { id: "", create_time: "", update_time: "" };
+            return { id: "", create_time: "", update_time: "", address: "", port: 0 };
         }
 
         function copy_id(v: any): string {
@@ -197,6 +209,14 @@ export function _copy_output_ok(v: any): OutputOk {
                     return "";
                 }
             }
+        }
+
+        function copy_address(v: any): string {
+            return typeof v === "string" ? v : "";
+        }
+
+        function copy_port(v: any): number {
+            return typeof v === "number" ? v : 0;
         }
     }
 }

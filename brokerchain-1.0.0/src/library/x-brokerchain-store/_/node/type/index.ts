@@ -5,4 +5,6 @@ export interface Node {
     fake?: boolean;
     create_time: string;
     update_time: string;
+    address: string;
+    port: number;
 }

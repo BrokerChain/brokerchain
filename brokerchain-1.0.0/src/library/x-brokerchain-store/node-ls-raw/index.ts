@@ -206,6 +206,8 @@ async function make_input_from_prompts<R>(
                     fake?: { order: "ascending" | "descending" };
                     create_time?: { order: "ascending" | "descending" };
                     update_time?: { order: "ascending" | "descending" };
+                    address?: { order: "ascending" | "descending" };
+                    port?: { order: "ascending" | "descending" };
                 }[];
             };
             page?: { offset: number; limit: number };
@@ -222,6 +224,8 @@ async function make_input_from_prompts<R>(
                     fake?: { order: "ascending" | "descending" };
                     create_time?: { order: "ascending" | "descending" };
                     update_time?: { order: "ascending" | "descending" };
+                    address?: { order: "ascending" | "descending" };
+                    port?: { order: "ascending" | "descending" };
                 }[];
             };
             page?: { offset: number; limit: number };
@@ -259,6 +263,8 @@ async function make_input_from_prompts<R>(
                     fake?: { order: "ascending" | "descending" };
                     create_time?: { order: "ascending" | "descending" };
                     update_time?: { order: "ascending" | "descending" };
+                    address?: { order: "ascending" | "descending" };
+                    port?: { order: "ascending" | "descending" };
                 }[];
             }) => R;
             fail: (err: Error) => R;
@@ -272,6 +278,8 @@ async function make_input_from_prompts<R>(
                     fake?: { order: "ascending" | "descending" };
                     create_time?: { order: "ascending" | "descending" };
                     update_time?: { order: "ascending" | "descending" };
+                    address?: { order: "ascending" | "descending" };
+                    port?: { order: "ascending" | "descending" };
                 }[];
             } = {
                 field_list: await input_field_list(log.sub("field_list"), {
@@ -297,6 +305,8 @@ async function make_input_from_prompts<R>(
                         fake?: { order: "ascending" | "descending" };
                         create_time?: { order: "ascending" | "descending" };
                         update_time?: { order: "ascending" | "descending" };
+                        address?: { order: "ascending" | "descending" };
+                        port?: { order: "ascending" | "descending" };
                     }[]
                 ) => R;
                 fail: (err: Error) => R;
@@ -309,6 +319,8 @@ async function make_input_from_prompts<R>(
                 fake?: { order: "ascending" | "descending" };
                 create_time?: { order: "ascending" | "descending" };
                 update_time?: { order: "ascending" | "descending" };
+                address?: { order: "ascending" | "descending" };
+                port?: { order: "ascending" | "descending" };
             }[] = [];
             for (let i = 0; i < length; ++i) {
                 const err = await input_item(log, {
@@ -336,6 +348,8 @@ async function make_input_from_prompts<R>(
                         fake?: { order: "ascending" | "descending" };
                         create_time?: { order: "ascending" | "descending" };
                         update_time?: { order: "ascending" | "descending" };
+                        address?: { order: "ascending" | "descending" };
+                        port?: { order: "ascending" | "descending" };
                     }) => R;
                     fail: (err: Error) => R;
                 }
@@ -347,6 +361,8 @@ async function make_input_from_prompts<R>(
                         fake?: { order: "ascending" | "descending" };
                         create_time?: { order: "ascending" | "descending" };
                         update_time?: { order: "ascending" | "descending" };
+                        address?: { order: "ascending" | "descending" };
+                        port?: { order: "ascending" | "descending" };
                     } = {
                         id: await skip_or_input("id", () =>
                             input_id(log.sub("id"), {
@@ -374,6 +390,22 @@ async function make_input_from_prompts<R>(
                         ),
                         update_time: await skip_or_input("update_time", () =>
                             input_update_time(log.sub("update_time"), {
+                                ok: (v) => v,
+                                fail: (err) => {
+                                    throw err;
+                                }
+                            })
+                        ),
+                        address: await skip_or_input("address", () =>
+                            input_address(log.sub("address"), {
+                                ok: (v) => v,
+                                fail: (err) => {
+                                    throw err;
+                                }
+                            })
+                        ),
+                        port: await skip_or_input("port", () =>
+                            input_port(log.sub("port"), {
                                 ok: (v) => v,
                                 fail: (err) => {
                                     throw err;
@@ -474,6 +506,61 @@ async function make_input_from_prompts<R>(
                     cb: { ok: (v: { order: "ascending" | "descending" }) => R; fail: (err: Error) => R }
                 ): Promise<R> {
                     const log = plog.sub("input_update_time");
+                    try {
+                        var v: { order: "ascending" | "descending" } = {
+                            order: await input_order(log.sub("order"), {
+                                ok: (v) => v,
+                                fail: (err) => {
+                                    throw err;
+                                }
+                            })
+                        };
+                    } catch (err) {
+                        log.error(err);
+                        return cb.fail(err);
+                    }
+
+                    return cb.ok(v);
+
+                    async function input_order<R>(plog: Logger, cb: { ok: (v: "ascending" | "descending") => R; fail: (err: Error) => R }): Promise<R> {
+                        const log = plog.sub("input_order");
+                        // FIXME implement all string constrains here
+                        const v: "ascending" | "descending" = await prompts.input_string_enum("order", ["ascending", "descending"]);
+                        return cb.ok(v);
+                    }
+                }
+
+                async function input_address<R>(
+                    plog: Logger,
+                    cb: { ok: (v: { order: "ascending" | "descending" }) => R; fail: (err: Error) => R }
+                ): Promise<R> {
+                    const log = plog.sub("input_address");
+                    try {
+                        var v: { order: "ascending" | "descending" } = {
+                            order: await input_order(log.sub("order"), {
+                                ok: (v) => v,
+                                fail: (err) => {
+                                    throw err;
+                                }
+                            })
+                        };
+                    } catch (err) {
+                        log.error(err);
+                        return cb.fail(err);
+                    }
+
+                    return cb.ok(v);
+
+                    async function input_order<R>(plog: Logger, cb: { ok: (v: "ascending" | "descending") => R; fail: (err: Error) => R }): Promise<R> {
+                        const log = plog.sub("input_order");
+                        // FIXME implement all string constrains here
+                        const v: "ascending" | "descending" = await prompts.input_string_enum("order", ["ascending", "descending"]);
+                        return cb.ok(v);
+                    }
+                }
+
+                async function input_port<R>(plog: Logger, cb: { ok: (v: { order: "ascending" | "descending" }) => R; fail: (err: Error) => R }): Promise<R> {
+                    const log = plog.sub("input_port");
                     try {
                         var v: { order: "ascending" | "descending" } = {
                             order: await input_order(log.sub("order"), {

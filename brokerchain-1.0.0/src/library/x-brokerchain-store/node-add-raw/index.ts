@@ -188,11 +188,11 @@ async function make_input_from_file<R>(
 
 async function make_input_from_prompts<R>(
     plog: Logger,
-    cb: { ok: (v: { node: { fake?: boolean; create_time: string; update_time: string } }) => R; fail: (err: Error) => R }
+    cb: { ok: (v: { node: { fake?: boolean; create_time: string; update_time: string; address: string; port: number } }) => R; fail: (err: Error) => R }
 ): Promise<R> {
     const log = plog.sub("make_input_from_prompts");
     try {
-        var v: { node: { fake?: boolean; create_time: string; update_time: string } } = {
+        var v: { node: { fake?: boolean; create_time: string; update_time: string; address: string; port: number } } = {
             node: await input_node(log.sub("node"), {
                 ok: (v) => v,
                 fail: (err) => {
@@ -209,11 +209,11 @@ async function make_input_from_prompts<R>(
 
     async function input_node<R>(
         plog: Logger,
-        cb: { ok: (v: { fake?: boolean; create_time: string; update_time: string }) => R; fail: (err: Error) => R }
+        cb: { ok: (v: { fake?: boolean; create_time: string; update_time: string; address: string; port: number }) => R; fail: (err: Error) => R }
     ): Promise<R> {
         const log = plog.sub("input_node");
         try {
-            var v: { fake?: boolean; create_time: string; update_time: string } = {
+            var v: { fake?: boolean; create_time: string; update_time: string; address: string; port: number } = {
                 fake: await skip_or_input("fake", () =>
                     input_fake(log.sub("fake"), {
                         ok: (v) => v,
@@ -229,6 +229,18 @@ async function make_input_from_prompts<R>(
                     }
                 }),
                 update_time: await input_update_time(log.sub("update_time"), {
+                    ok: (v) => v,
+                    fail: (err) => {
+                        throw err;
+                    }
+                }),
+                address: await input_address(log.sub("address"), {
+                    ok: (v) => v,
+                    fail: (err) => {
+                        throw err;
+                    }
+                }),
+                port: await input_port(log.sub("port"), {
                     ok: (v) => v,
                     fail: (err) => {
                         throw err;
@@ -259,6 +271,20 @@ async function make_input_from_prompts<R>(
             const log = plog.sub("input_update_time");
             // FIXME implement all string constrains here
             const v = await prompts.input_string("update_time", { allow_empty: true });
+            return cb.ok(v);
+        }
+
+        async function input_address<R>(plog: Logger, cb: { ok: (v: string) => R; fail: (err: Error) => R }): Promise<R> {
+            const log = plog.sub("input_address");
+            // FIXME implement all string constrains here
+            const v = await prompts.input_string("address", { allow_empty: true });
+            return cb.ok(v);
+        }
+
+        async function input_port<R>(plog: Logger, cb: { ok: (v: number) => R; fail: (err: Error) => R }): Promise<R> {
+            const log = plog.sub("input_port");
+            // FIXME implement all number constrains here
+            const v = await prompts.input_number("port");
             return cb.ok(v);
         }
 

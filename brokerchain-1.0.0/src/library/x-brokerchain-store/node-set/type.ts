@@ -3,7 +3,7 @@
 import { Logger } from "../../../myutils/logger.js";
 
 export interface Input {
-    node: { id: string; fake?: boolean };
+    node: { id: string; fake?: boolean; address: string; port: number };
 }
 
 export interface OutputOk {}
@@ -37,6 +37,8 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
         Object.keys(v.node).forEach((field) => {
             if (field === "id") return;
             if (field === "fake") return;
+            if (field === "address") return;
+            if (field === "port") return;
             throw new Error("v.node contains unknown field: " + field);
         });
 
@@ -50,6 +52,20 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
             if (typeof v.node.fake !== "boolean") {
                 throw new Error("v.node.fake is not boolean");
             }
+        }
+
+        log.println("v.node.address must be string");
+        if (typeof v.node.address !== "string") {
+            throw new Error("v.node.address is not string");
+        }
+
+        log.println("v.node.port must be number");
+        if (typeof v.node.port !== "number") {
+            throw new Error("v.node.port is not number");
+        }
+
+        if (Number.isSafeInteger(v.node.port) === false) {
+            throw new Error("v.node.port is not safe integer");
         }
     } catch (err) {
         log.error(err);

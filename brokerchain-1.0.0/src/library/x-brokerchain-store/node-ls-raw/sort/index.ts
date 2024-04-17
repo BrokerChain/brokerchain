@@ -5,6 +5,8 @@ interface Data {
     fake?: boolean;
     create_time: string;
     update_time: string;
+    address: string;
+    port: number;
 }
 
 interface SortRequest {
@@ -13,6 +15,8 @@ interface SortRequest {
         fake?: { order: "ascending" | "descending" };
         create_time?: { order: "ascending" | "descending" };
         update_time?: { order: "ascending" | "descending" };
+        address?: { order: "ascending" | "descending" };
+        port?: { order: "ascending" | "descending" };
     }[];
 }
 
@@ -101,8 +105,10 @@ function make_root_sort_fun(
             fake?: { order: "ascending" | "descending" };
             create_time?: { order: "ascending" | "descending" };
             update_time?: { order: "ascending" | "descending" };
+            address?: { order: "ascending" | "descending" };
+            port?: { order: "ascending" | "descending" };
         };
-        get_value: (item: Data) => { id: string; fake?: boolean; create_time: string; update_time: string } | undefined; // undefined for optional field
+        get_value: (item: Data) => { id: string; fake?: boolean; create_time: string; update_time: string; address: string; port: number } | undefined; // undefined for optional field
     }
 ): SortFun | undefined {
     const log = plog.sub("make_root_sort_fun");
@@ -145,6 +151,24 @@ function make_root_sort_fun(
                   get_value: (data) => {
                       const v = get_value(data);
                       return v ? v.update_time : undefined;
+                  }
+              })
+            : undefined,
+        sort_option.address
+            ? make_field_sort_fun_address(log, {
+                  sort_option: sort_option.address,
+                  get_value: (data) => {
+                      const v = get_value(data);
+                      return v ? v.address : undefined;
+                  }
+              })
+            : undefined,
+        sort_option.port
+            ? make_field_sort_fun_port(log, {
+                  sort_option: sort_option.port,
+                  get_value: (data) => {
+                      const v = get_value(data);
+                      return v ? v.port : undefined;
                   }
               })
             : undefined
@@ -270,6 +294,64 @@ function make_root_sort_fun(
                 return (a, b) => {
                     const v_a = Date.parse(get_value(a)) || default_value;
                     const v_b = Date.parse(get_value(b)) || default_value;
+                    return v_b - v_a;
+                };
+            default:
+                throw log.new_error("unknown sort_option.order: " + sort_option.order);
+        }
+    }
+
+    function make_field_sort_fun_address(
+        plog: Logger,
+        opt: {
+            sort_option: { order: "ascending" | "descending" };
+            get_value: (item: Data) => string | undefined; // undefined for optional field
+        }
+    ): SortFun | undefined {
+        const log = plog.sub("make_field_sort_fun_address");
+        const { sort_option, get_value } = opt;
+
+        const default_value = "";
+        switch (sort_option.order) {
+            case "ascending":
+                return (a, b) => {
+                    const v_a = get_value(a) || default_value;
+                    const v_b = get_value(b) || default_value;
+                    return v_a.localeCompare(v_b);
+                };
+            case "descending":
+                return (a, b) => {
+                    const v_a = get_value(a) || default_value;
+                    const v_b = get_value(b) || default_value;
+                    return v_b.localeCompare(v_a);
+                };
+            default:
+                throw log.new_error("unknown sort_option.order: " + sort_option.order);
+        }
+    }
+
+    function make_field_sort_fun_port(
+        plog: Logger,
+        opt: {
+            sort_option: { order: "ascending" | "descending" };
+            get_value: (item: Data) => number | undefined; // undefined for optional field
+        }
+    ): SortFun | undefined {
+        const log = plog.sub("make_field_sort_fun_port");
+        const { sort_option, get_value } = opt;
+
+        const default_value = 0;
+        switch (sort_option.order) {
+            case "ascending":
+                return (a, b) => {
+                    const v_a = get_value(a) || default_value;
+                    const v_b = get_value(b) || default_value;
+                    return v_a - v_b;
+                };
+            case "descending":
+                return (a, b) => {
+                    const v_a = get_value(a) || default_value;
+                    const v_b = get_value(b) || default_value;
                     return v_b - v_a;
                 };
             default:
