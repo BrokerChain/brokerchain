@@ -5,7 +5,7 @@
     "files": [],
     "references": [
         {
-            "path": "./x-brokerchain-store"
+            "path": "./x-brokerchain-node"
         },
         {
             "path": "./pty"
@@ -15,6 +15,9 @@
         },
         {
             "path": "./task-queue"
+        },
+        {
+            "path": "./x-brokerchain-store"
         },
         {
             "path": "./zip"

@@ -8,9 +8,9 @@
         "build": "tsc --build",
         "watch": "tsc --watch",
         "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-        "run": "",
-        "start": "",
-        "stop": ""
+        "run": "data_dir=./data node dist/library/x-brokerchain-node/run/index.js",
+        "start": "data_dir=./data pm2 start dist/library/x-brokerchain-node/run/index.js --name brokerchain --no-autorestart",
+        "stop": "pm2 stop brokerchain"
     },
     "type": "module",
     "private": true,
