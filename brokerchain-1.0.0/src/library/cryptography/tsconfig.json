@@ -1,0 +1,18 @@
+{
+    "extends": "../../../tsconfig.base.json",
+    "compilerOptions": {
+        "outDir": "../../../dist/library/cryptography",
+        "rootDir": "."
+    },
+    "references": [
+        {
+            "path": "../../myutils"
+        },
+        {
+            "path": "../buffer"
+        },
+        {
+            "path": "../node-forge"
+        }
+    ]
+}

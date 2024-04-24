@@ -4,6 +4,7 @@ import { Logger } from "../../../myutils/logger.js";
 import { Input, Output, Callback } from "./type.js";
 import * as website from "../../x-brokerchain-website/export.js";
 import * as dashboard from "../../x-brokerchain-dashboard/export.js";
+import * as crypto from "../../x-brokerchain-crypto/export.js";
 
 export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
     const log = plog.sub("x-brokerchain-node.run");
@@ -70,6 +71,21 @@ export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Prom
         );
 
         // start the core...
+
+        // generate key pari
+        const { private_key, public_key } = await crypto.key_pair_generate(
+            log,
+            {},
+            {
+                ok: (output) => {
+                    return output;
+                },
+                fail: (err) => {
+                    throw err;
+                }
+            }
+        );
+
         // TODO
 
         return cb.ok({});

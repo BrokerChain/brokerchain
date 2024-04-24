@@ -8,6 +8,15 @@
             "path": "./x-brokerchain-node"
         },
         {
+            "path": "./buffer"
+        },
+        {
+            "path": "./cryptography"
+        },
+        {
+            "path": "./node-forge"
+        },
+        {
             "path": "./pty"
         },
         {
@@ -18,6 +27,9 @@
         },
         {
             "path": "./vite"
+        },
+        {
+            "path": "./x-brokerchain-crypto"
         },
         {
             "path": "./x-brokerchain-dashboard"

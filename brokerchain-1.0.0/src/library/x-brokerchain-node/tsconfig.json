@@ -16,6 +16,9 @@
         },
         {
             "path": "../x-brokerchain-dashboard"
+        },
+        {
+            "path": "../x-brokerchain-crypto"
         }
     ]
 }
