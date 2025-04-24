@@ -9,7 +9,6 @@ export const dist = path.resolve(root, "dist");
 export const dist_web_root = path.resolve(dist, "web-root"); // [important] web-app bundle output directory
 export const asset = path.resolve(root, "asset");
 export const env_root = path.resolve(root, "../../");
-export const env_id = path.resolve(env_root, "id");
 export const upgrade_script = path.resolve(env_root, "upgrade.sh");
 export const download = path.resolve(env_root, "download");
 export const web_root = path.resolve(root, "web-root");
@@ -103,17 +102,6 @@ export const web_file = path.resolve(data, "web-file");
 export const temp = path.resolve(data, "temp");
 export const temp_lisp = path.resolve(temp, "lisp");
 export const cloud = path.resolve(root, "builder/cloud");
-// deprecated, these directories have been moved
-export const vpn = path.resolve(env_root, "../vpn");
-export const ikev2 = path.resolve(vpn, "ikev2-dev"); // FIXME
-export const ikev2_freeradius = path.resolve(ikev2, "freeradius");
-export const ikev2_freeradius_authorize = path.resolve(ikev2_freeradius, "etc/raddb/mods-config/files/authorize");
-export const ikev2_strongswan = path.resolve(ikev2, "strongswan");
-export const ikev2_strongswan_secrets = path.resolve(ikev2_strongswan, "etc/ipsec.secrets");
-export const wireguard = path.resolve(vpn, "wireguard");
-export const wireguard_start = path.resolve(wireguard, "start.sh");
-export const wireguard_stop = path.resolve(wireguard, "stop.sh");
-export const wireguard_wg0 = path.resolve(wireguard, "wg0.conf");
 export function resolve(...parts: string[]) {
     return path.resolve(...parts);
 }

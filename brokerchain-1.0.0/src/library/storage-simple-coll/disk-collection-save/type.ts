@@ -53,7 +53,7 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
         Object.keys(v.metadata).forEach((field) => {
             // a dynamic field, check it (FIXME log message is not clear)
 
-            log.println("v.metadata.field must be any (ignore)");
+            log.println("v.metadata[field] must be any (ignore)");
         });
 
         log.println("v.items must be array");
@@ -74,7 +74,7 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
 
                 // a dynamic field, check it (FIXME log message is not clear)
 
-                log.println("item.field must be any (ignore)");
+                log.println("item[field] must be any (ignore)");
             });
 
             log.println("item.id must be string");

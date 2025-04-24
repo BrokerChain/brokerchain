@@ -6,15 +6,12 @@ import { task_add } from "../task-add/export.js";
 import { task_wait } from "../task-wait/export.js";
 
 export async function core<R>(
-    plog: Logger,
+    log: Logger,
     input: Input & {
         run?: (plog: Logger) => Promise<void>;
     },
     cb: Callback<R>
 ): Promise<R> {
-    const log = plog.sub("task-queue.task-add-wait");
-    log.variable("input", input);
-
     log.println("add task...");
     return await task_add(
         log,

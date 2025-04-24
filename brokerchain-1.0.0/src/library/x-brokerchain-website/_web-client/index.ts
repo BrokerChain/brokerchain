@@ -4,3 +4,7 @@ import { LibraryType } from "./type.js";
 import { make_library_client } from "../../../myutils/common/rpc/make_library_client.js";
 
 export const x_brokerchain_website: LibraryType = make_library_client<LibraryType>("x-brokerchain-website");
+
+export function make_x_brokerchain_website(base_url: string): LibraryType {
+    return make_library_client<LibraryType>("x-brokerchain-website", base_url);
+}

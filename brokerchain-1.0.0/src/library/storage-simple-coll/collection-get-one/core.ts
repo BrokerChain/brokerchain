@@ -6,15 +6,13 @@ import { collection_get } from "../collection-get/export.js";
 import { Item } from "../_type/index.js";
 
 export async function core<R>(
-    plog: Logger,
+    log: Logger,
     input: Input & {
         // FIXME this field is not optional
         match?: (item: Item) => boolean;
     },
     cb: Callback<R>
 ): Promise<R> {
-    const log = plog.sub("storage-simple-coll.collection-get-one");
-    log.variable("input", input);
     const { namespace, key, match } = input;
 
     if (!match) {

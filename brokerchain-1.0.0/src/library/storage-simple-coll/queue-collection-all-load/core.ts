@@ -5,10 +5,7 @@ import { Input, Output, Callback } from "./type.js";
 import { disk_collection_ls } from "../disk-collection-ls/export.js";
 import { queue_collection_load } from "../queue-collection-load/export.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("storage-simple-coll.queue-collection-all-load");
-    log.variable("input", input);
-
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     try {
         const output: Output = {
             version: 2,

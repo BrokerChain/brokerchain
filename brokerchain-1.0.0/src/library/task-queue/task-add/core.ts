@@ -5,15 +5,12 @@ import { Input, Output, Callback } from "./type.js";
 import * as _ from "../_/index.js";
 
 export async function core<R>(
-    plog: Logger,
+    log: Logger,
     input: Input & {
         run?: (plog: Logger) => Promise<void>;
     },
     cb: Callback<R>
 ): Promise<R> {
-    const log = plog.sub("task-queue.task-add");
-    log.variable("input", input);
-
     try {
         let run = input.run;
         if (!run) {

@@ -4,3 +4,7 @@ import { LibraryType } from "./type.js";
 import { make_library_client } from "../../../myutils/common/rpc/make_library_client.js";
 
 export const zip: LibraryType = make_library_client<LibraryType>("zip");
+
+export function make_zip(base_url: string): LibraryType {
+    return make_library_client<LibraryType>("zip", base_url);
+}

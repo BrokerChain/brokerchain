@@ -4,3 +4,7 @@ import { LibraryType } from "./type.js";
 import { make_library_client } from "../../../myutils/common/rpc/make_library_client.js";
 
 export const pty: LibraryType = make_library_client<LibraryType>("pty");
+
+export function make_pty(base_url: string): LibraryType {
+    return make_library_client<LibraryType>("pty", base_url);
+}

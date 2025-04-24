@@ -4,10 +4,7 @@ import { Logger } from "../../../myutils/logger.js";
 import { Input, Output, Callback } from "./type.js";
 import * as _ from "../_/index.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("task-queue.queue-status");
-    log.variable("input", input);
-
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     return _.get_queue(
         log,
         { id: input.queue_id },

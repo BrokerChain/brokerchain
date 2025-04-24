@@ -8,6 +8,7 @@ export interface Input {
     proxy_list?: { source_path: string; target_server: string; change_origin: boolean }[];
     tailwindcss?: { [key: string]: any };
     port: number;
+    output_filename_pattern?: { entry_filename: string };
 }
 
 export interface OutputOk {}
@@ -34,6 +35,7 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
             if (field === "proxy_list") return;
             if (field === "tailwindcss") return;
             if (field === "port") return;
+            if (field === "output_filename_pattern") return;
             throw new Error("v contains unknown field: " + field);
         });
 
@@ -121,7 +123,7 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
             Object.keys(v.tailwindcss).forEach((field) => {
                 // a dynamic field, check it (FIXME log message is not clear)
 
-                log.println("v.tailwindcss.field must be any (ignore)");
+                log.println("v.tailwindcss[field] must be any (ignore)");
             });
         }
 
@@ -136,6 +138,23 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
 
         if ((v.port >= 1 && v.port < 65536) === false) {
             throw new Error("v.port is out of range");
+        }
+
+        if (v.output_filename_pattern !== undefined) {
+            log.println("v.output_filename_pattern must be object");
+            if (typeof v.output_filename_pattern !== "object" || v.output_filename_pattern === null) {
+                throw new Error("v.output_filename_pattern is not object");
+            }
+
+            Object.keys(v.output_filename_pattern).forEach((field) => {
+                if (field === "entry_filename") return;
+                throw new Error("v.output_filename_pattern contains unknown field: " + field);
+            });
+
+            log.println("v.output_filename_pattern.entry_filename must be string");
+            if (typeof v.output_filename_pattern.entry_filename !== "string") {
+                throw new Error("v.output_filename_pattern.entry_filename is not string");
+            }
         }
     } catch (err) {
         log.error(err);

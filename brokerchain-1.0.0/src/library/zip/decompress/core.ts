@@ -5,9 +5,7 @@ import { add_exe_on_windows } from "../../../myutils/node/add_exe_on_windows.js"
 import { Input, Output, Callback } from "./type.js";
 import { run } from "../../pty/export.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("zip.decompress");
-    log.variable("input", input);
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     return await run(
         log,
         {

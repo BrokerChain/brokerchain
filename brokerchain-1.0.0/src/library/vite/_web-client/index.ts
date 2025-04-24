@@ -4,3 +4,7 @@ import { LibraryType } from "./type.js";
 import { make_library_client } from "../../../myutils/common/rpc/make_library_client.js";
 
 export const vite: LibraryType = make_library_client<LibraryType>("vite");
+
+export function make_vite(base_url: string): LibraryType {
+    return make_library_client<LibraryType>("vite", base_url);
+}

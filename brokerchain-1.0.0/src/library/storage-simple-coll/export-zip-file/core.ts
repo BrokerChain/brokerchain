@@ -5,9 +5,7 @@ import { Input, Output, Callback } from "./type.js";
 import { resolve_root } from "../_deprecated/simple-coll/disk/dirname/index.js";
 import { compress } from "../../zip/export.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("storage-simple-coll.export-zip-file");
-    log.variable("input", input);
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     try {
         if (!input.namespace) {
             throw log.new_error("invalid namespace");

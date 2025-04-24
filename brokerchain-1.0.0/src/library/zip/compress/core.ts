@@ -6,9 +6,7 @@ import { add_exe_on_windows } from "../../../myutils/node/add_exe_on_windows.js"
 import { Input, Output, Callback } from "./type.js";
 import { run } from "../../pty/export.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("zip.compress");
-    log.variable("input", input);
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     const from_path_abs = path.resolve(input.from_path);
     const from_path_parent_abs = path.resolve(input.from_path, "../");
     const dir_name = path.basename(from_path_abs);

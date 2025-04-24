@@ -16,6 +16,15 @@ export async function post_json<T, R>(
         headers?: {
             [key: string]: string;
         };
+        proxy?: {
+            hostname: string;
+            port: number;
+            auth?: {
+                username: string;
+                password: string;
+            };
+            protocol?: string;
+        };
         data: any;
     },
     cb: {
@@ -25,17 +34,24 @@ export async function post_json<T, R>(
 ): Promise<R> {
     const log = plog.sub("post_json");
     log.variable_debug("input", input);
-    const { url, url_params, headers, data } = input;
+    const { url, url_params, headers, proxy, data } = input;
     log.variable("url", url);
     log.variable("url_params", url_params);
     log.variable("headers", headers);
+    log.variable("proxy", proxy);
     log.variable("data", data);
     try {
         // DEBUG (proxy)
         // const res = await axios_like_post(url, data, {
         const res = await axios.post(url, data, {
             params: url_params || {},
-            headers
+            headers,
+            proxy: proxy
+                ? {
+                      host: proxy.hostname, // yes, the axios proxy field "host" should be "hostname" actually
+                      ...proxy
+                  }
+                : undefined
         });
         const output = res.data;
         log.variable_debug("output", output);

@@ -4,9 +4,7 @@ import { Logger } from "../../../myutils/logger.js";
 import { Input, Output, Callback } from "./type.js";
 import * as store from "../_/node/index.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("x-brokerchain-store.node-get-raw");
-    log.variable("input", input);
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     return await store.get(log, input.id, {
         none: () => {
             return cb.none({ node: store.make_private() });

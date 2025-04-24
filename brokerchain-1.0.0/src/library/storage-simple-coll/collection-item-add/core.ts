@@ -9,9 +9,7 @@ import { disk_collection_item_add } from "../disk-collection-item-add/export.js"
 import { queue_add } from "../_queue/index.js";
 // import { cache_obj } from "../_cache/index.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("storage-simple-coll.collection-item-add");
-    log.variable("input", input);
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     const { namespace, key, item } = input;
 
     try {

@@ -8,10 +8,7 @@ import { analytics } from "../_analytics/index.js";
 import { classic } from "../../../myutils/node/classic.js";
 const { __dirname } = classic(import.meta.url);
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("x-brokerchain-website.make-page-index");
-    log.variable("input", input);
-
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     try {
         const { entry_module_path, tailwind_style_path } = make_path(log);
 

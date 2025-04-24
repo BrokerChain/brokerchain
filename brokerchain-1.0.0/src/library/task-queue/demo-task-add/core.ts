@@ -5,10 +5,7 @@ import { Input, Output, Callback } from "./type.js";
 import { task_add } from "../task-add/export.js";
 import { sleep } from "../../../myutils/index.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("task-queue.demo-task-add");
-    log.variable("input", input);
-
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     const queue_id = input.queue_id;
 
     let run: () => Promise<void> = () => {

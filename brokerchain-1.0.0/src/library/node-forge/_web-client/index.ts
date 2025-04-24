@@ -4,3 +4,7 @@ import { LibraryType } from "./type.js";
 import { make_library_client } from "../../../myutils/common/rpc/make_library_client.js";
 
 export const node_forge: LibraryType = make_library_client<LibraryType>("node-forge");
+
+export function make_node_forge(base_url: string): LibraryType {
+    return make_library_client<LibraryType>("node-forge", base_url);
+}

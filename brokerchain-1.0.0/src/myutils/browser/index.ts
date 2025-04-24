@@ -5,6 +5,7 @@ export const dom = _dom;
 import * as _promise from "../common/promise.js";
 export const promise = _promise;
 export * from "./environment.js";
+export * from "./get_url_search_params.js";
 export * from "../common/syntax/index.js";
 export * from "../common/delay.js";
 export * from "../common/progress.js";

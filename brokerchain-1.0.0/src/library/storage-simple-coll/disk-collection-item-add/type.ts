@@ -53,7 +53,7 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
 
             // a dynamic field, check it (FIXME log message is not clear)
 
-            log.println("v.item.field must be any (ignore)");
+            log.println("v.item[field] must be any (ignore)");
         });
 
         log.println("v.item.id must be string");

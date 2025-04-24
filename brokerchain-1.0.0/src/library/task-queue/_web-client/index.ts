@@ -4,3 +4,7 @@ import { LibraryType } from "./type.js";
 import { make_library_client } from "../../../myutils/common/rpc/make_library_client.js";
 
 export const task_queue: LibraryType = make_library_client<LibraryType>("task-queue");
+
+export function make_task_queue(base_url: string): LibraryType {
+    return make_library_client<LibraryType>("task-queue", base_url);
+}

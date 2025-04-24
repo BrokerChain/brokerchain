@@ -5,13 +5,11 @@ import { Input, Output, Callback } from "./type.js";
 import * as store from "../_/node/index.js";
 import { make_sort_fun } from "./sort/index.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("x-brokerchain-store.node-ls-raw");
-    log.variable("input", input);
-
+export async function core<R>(log: Logger, input: Input & { global_filter_fun?: (item: store.Node) => boolean }, cb: Callback<R>): Promise<R> {
     return await store.ls(
         log,
         {
+            filter: input.global_filter_fun,
             sort: make_sort_fun(
                 log,
                 {
@@ -35,7 +33,12 @@ export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Prom
                 return cb.empty({ list: [], total_count: 0 });
             },
             ok: (list, engine) => {
-                return cb.ok({ list: apply_pagination(log, input, list), total_count: list.length });
+                const paged_list = apply_pagination(log, input, list);
+                if (paged_list.length === 0) {
+                    return cb.empty({ list: [], total_count: list.length });
+                } else {
+                    return cb.ok({ list: paged_list, total_count: list.length });
+                }
             },
             fail: (err) => {
                 return cb.fail(err);

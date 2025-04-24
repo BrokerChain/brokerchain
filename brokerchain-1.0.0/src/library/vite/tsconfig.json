@@ -7,6 +7,9 @@
     "references": [
         {
             "path": "../../myutils"
+        },
+        {
+            "path": "../file-system"
         }
     ]
 }

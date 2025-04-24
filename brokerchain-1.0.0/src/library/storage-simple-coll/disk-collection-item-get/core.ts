@@ -4,9 +4,7 @@ import { Logger } from "../../../myutils/logger.js";
 import { collection_item_get } from "../_deprecated/simple-coll/disk/collection_item_get.js";
 import { Input, Output, Callback } from "./type.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("storage-simple-coll.disk-collection-item-get");
-    log.variable("input", input);
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     return await collection_item_get(
         log,
         {

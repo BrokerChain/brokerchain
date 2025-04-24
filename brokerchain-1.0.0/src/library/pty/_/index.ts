@@ -42,7 +42,15 @@ export function pty_spawn<R>(
         let is_pty_proc_exited = false;
 
         process.stdin.setEncoding("utf8");
-        process.stdin.setRawMode(true);
+        try {
+            var originalRawModeValue = process.stdin.isRaw;
+            // Throw error when:
+            // Running in a non-interactive environment
+            process.stdin.setRawMode(true);
+            log.println("set stdin raw mode: true");
+        } catch (err) {
+            log.warn(err);
+        }
         process.stdout.setDefaultEncoding("utf8");
 
         // this is not required on mac, but maybe required on windows
@@ -55,7 +63,7 @@ export function pty_spawn<R>(
 
         process.stdout.on("resize", () => {
             if (!is_pty_proc_exited) {
-                log.println(`current process is resized, resize the pty child process too: ${process.stdout.columns}x${process.stdout.rows}`);
+                // log.println(`current process is resized, resize the pty child process too: ${process.stdout.columns}x${process.stdout.rows}`);
                 pty_proc.resize(process.stdout.columns, process.stdout.rows);
             }
         });
@@ -77,6 +85,7 @@ export function pty_spawn<R>(
             is_pty_proc_exited = true;
             log.variable("exit", exit);
             process.stdin.unref(); // IMPORTANT, or the process will hang
+            restore_raw_mode_value();
             try {
                 resolve(cb.ok({ exit_code: exit.exitCode, signal: exit.signal }));
             } catch (err) {
@@ -86,6 +95,17 @@ export function pty_spawn<R>(
 
         if (opt.run) {
             opt.run(pty_proc);
+        }
+
+        function restore_raw_mode_value() {
+            try {
+                // Throw error when:
+                // Running in a non-interactive environment
+                process.stdin.setRawMode(originalRawModeValue);
+                log.println(`set stdin raw mode: ${originalRawModeValue}`);
+            } catch (err) {
+                log.warn(err);
+            }
         }
     });
 }

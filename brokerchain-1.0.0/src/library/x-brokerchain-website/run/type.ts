@@ -4,9 +4,9 @@ import { Logger } from "../../../myutils/logger.js";
 
 export interface Input {
     build: boolean;
-    host?: string;
-    http_port?: number;
-    https_port?: number;
+    host: string;
+    http_port: number;
+    https_port: number;
 }
 
 export interface OutputOk {}
@@ -40,41 +40,35 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
             throw new Error("v.build is not boolean");
         }
 
-        if (v.host !== undefined) {
-            log.println("v.host must be string");
-            if (typeof v.host !== "string") {
-                throw new Error("v.host is not string");
-            }
+        log.println("v.host must be string");
+        if (typeof v.host !== "string") {
+            throw new Error("v.host is not string");
         }
 
-        if (v.http_port !== undefined) {
-            log.println("v.http_port must be number");
-            if (typeof v.http_port !== "number") {
-                throw new Error("v.http_port is not number");
-            }
-
-            if (Number.isSafeInteger(v.http_port) === false) {
-                throw new Error("v.http_port is not safe integer");
-            }
-
-            if ((v.http_port >= 0 && v.http_port < 65536) === false) {
-                throw new Error("v.http_port is out of range");
-            }
+        log.println("v.http_port must be number");
+        if (typeof v.http_port !== "number") {
+            throw new Error("v.http_port is not number");
         }
 
-        if (v.https_port !== undefined) {
-            log.println("v.https_port must be number");
-            if (typeof v.https_port !== "number") {
-                throw new Error("v.https_port is not number");
-            }
+        if (Number.isSafeInteger(v.http_port) === false) {
+            throw new Error("v.http_port is not safe integer");
+        }
 
-            if (Number.isSafeInteger(v.https_port) === false) {
-                throw new Error("v.https_port is not safe integer");
-            }
+        if ((v.http_port >= 0 && v.http_port < 65536) === false) {
+            throw new Error("v.http_port is out of range");
+        }
 
-            if ((v.https_port >= 0 && v.https_port < 65536) === false) {
-                throw new Error("v.https_port is out of range");
-            }
+        log.println("v.https_port must be number");
+        if (typeof v.https_port !== "number") {
+            throw new Error("v.https_port is not number");
+        }
+
+        if (Number.isSafeInteger(v.https_port) === false) {
+            throw new Error("v.https_port is not safe integer");
+        }
+
+        if ((v.https_port >= 0 && v.https_port < 65536) === false) {
+            throw new Error("v.https_port is out of range");
         }
     } catch (err) {
         log.error(err);

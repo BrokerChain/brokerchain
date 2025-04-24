@@ -9,9 +9,9 @@ export class ValueIO {
     private _read: () => Value;
     private _write: (v: Value, silent: boolean) => void;
 
-    constructor(_read: () => Value, _write: (v: Value, silent: boolean) => void) {
-        this._read = _read;
-        this._write = _write;
+    constructor(opts: { read: () => Value; write: (v: Value, silent: boolean) => void }) {
+        this._read = opts.read;
+        this._write = opts.write;
     }
 
     read(): Value {
@@ -28,8 +28,19 @@ export class ValueIO {
         return this;
     }
 
+    // FIXME performance issue, it can be slow
+    // Consider using a proxy object here to minimal performance issues in complexe projects
+    mutate(cb: (v: Content) => void, silent = false) {
+        this.update((v) => {
+            const content: Content = v.toJS() as any;
+            cb(content);
+            return Record<Content>(content)();
+        }, silent);
+        return this;
+    }
+
     proxy(cb: SetValueProxy) {
-        return new ValueIO(this._read, cb);
+        return new ValueIO({ read: this._read, write: cb });
     }
 }
 

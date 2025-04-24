@@ -7,9 +7,7 @@ import { cache_collection_get } from "../cache-collection-get/export.js";
 import { cache_collection_set } from "../cache-collection-set/export.js";
 import { queue_add } from "../_queue/index.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("storage-simple-coll.queue-collection-load");
-    log.variable("input", input);
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     const { namespace, key } = input;
     // NOTE handle exception carefully
     try {

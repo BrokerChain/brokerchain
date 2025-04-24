@@ -11,10 +11,7 @@ import { pty_spawn } from "../_/index.js";
 // but actually, output stream is ok.
 // -
 // the bug is hard to fix for now.
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("pty.run");
-    log.variable("input", input);
-
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     return await pty_spawn(
         log,
         {

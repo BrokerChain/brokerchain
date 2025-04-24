@@ -16,6 +16,15 @@ export async function get_json<T, R>(
         headers?: {
             [key: string]: string;
         };
+        proxy?: {
+            hostname: string;
+            port: number;
+            auth?: {
+                username: string;
+                password: string;
+            };
+            protocol?: string;
+        };
     },
     cb: {
         ok: (output: T) => R;
@@ -24,14 +33,21 @@ export async function get_json<T, R>(
 ): Promise<R> {
     const log = plog.sub("get_json");
     log.variable_debug("input", input);
-    const { url, url_params, headers } = input;
+    const { url, url_params, headers, proxy } = input;
     log.variable("url", url);
     log.variable("url_params", url_params);
     log.variable("headers", headers);
+    log.variable("proxy", proxy);
     try {
         const res = await axios.get(url, {
             params: url_params || {},
-            headers
+            headers,
+            proxy: proxy
+                ? {
+                      host: proxy.hostname, // yes, the axios proxy field "host" should be "hostname" actually
+                      ...proxy
+                  }
+                : undefined
         });
         const output = res.data;
         log.variable_debug("output", output);

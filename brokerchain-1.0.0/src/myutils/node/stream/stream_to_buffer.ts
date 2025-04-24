@@ -13,7 +13,7 @@ export async function stream_to_buffer<R>(
         const chunk_list: Buffer[] = [];
         for await (const chunk of stream) {
             // log.variable("chunk", chunk);
-            chunk_list.push(Buffer.from(chunk)); // the chunk can be string of Buffer
+            chunk_list.push(Buffer.from(chunk as any)); // the chunk can be string of Buffer
         }
         const data = Buffer.concat(chunk_list);
         // log.variable("data", data.toString("hex"));

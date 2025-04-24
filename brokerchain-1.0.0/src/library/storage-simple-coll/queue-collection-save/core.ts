@@ -5,9 +5,7 @@ import { Input, Output, Callback } from "./type.js";
 import { disk_collection_save } from "../disk-collection-save/export.js";
 import { queue_add } from "../_queue/index.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("storage-simple-coll.queue-collection-save");
-    log.variable("input", input);
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     // NOTE handle exception carefully
     try {
         // [dangerous] Dining Philosophers problem

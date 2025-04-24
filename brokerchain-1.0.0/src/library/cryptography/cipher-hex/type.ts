@@ -5,8 +5,6 @@ import { Logger } from "../../../myutils/logger.js";
 export interface Input {
     algorithm:
         | "aes-128-cbc"
-        | "aes-128-cbc-hmac-sha1"
-        | "aes-128-cbc-hmac-sha256"
         | "aes-128-ccm"
         | "aes-128-cfb"
         | "aes-128-cfb1"
@@ -28,8 +26,6 @@ export interface Input {
         | "aes-192-ocb"
         | "aes-192-ofb"
         | "aes-256-cbc"
-        | "aes-256-cbc-hmac-sha1"
-        | "aes-256-cbc-hmac-sha256"
         | "aes-256-ccm"
         | "aes-256-cfb"
         | "aes-256-cfb1"
@@ -176,8 +172,6 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
         if (
             new Set([
                 "aes-128-cbc",
-                "aes-128-cbc-hmac-sha1",
-                "aes-128-cbc-hmac-sha256",
                 "aes-128-ccm",
                 "aes-128-cfb",
                 "aes-128-cfb1",
@@ -199,8 +193,6 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
                 "aes-192-ocb",
                 "aes-192-ofb",
                 "aes-256-cbc",
-                "aes-256-cbc-hmac-sha1",
-                "aes-256-cbc-hmac-sha256",
                 "aes-256-ccm",
                 "aes-256-cfb",
                 "aes-256-cfb1",

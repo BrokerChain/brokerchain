@@ -14,10 +14,16 @@
             "path": "./cryptography"
         },
         {
+            "path": "./file-system"
+        },
+        {
             "path": "./node-forge"
         },
         {
             "path": "./pty"
+        },
+        {
+            "path": "./react-ui-simple"
         },
         {
             "path": "./storage-simple-coll"

@@ -5,10 +5,7 @@ import { Input, Output, Callback } from "./type.js";
 import * as os from "node:os";
 import { pty_spawn } from "../_/index.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("pty.shell");
-    log.variable("input", input);
-
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     const shell = os.platform() === "win32" ? "powershell.exe" : "bash";
     return await pty_spawn(
         log,

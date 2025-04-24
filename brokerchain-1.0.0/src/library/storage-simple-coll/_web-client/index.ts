@@ -4,3 +4,7 @@ import { LibraryType } from "./type.js";
 import { make_library_client } from "../../../myutils/common/rpc/make_library_client.js";
 
 export const storage_simple_coll: LibraryType = make_library_client<LibraryType>("storage-simple-coll");
+
+export function make_storage_simple_coll(base_url: string): LibraryType {
+    return make_library_client<LibraryType>("storage-simple-coll", base_url);
+}

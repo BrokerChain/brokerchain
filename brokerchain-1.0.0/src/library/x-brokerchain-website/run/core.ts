@@ -5,38 +5,31 @@ import { Input, Output, Callback } from "./type.js";
 import { build } from "../build/export.js";
 import { _start } from "../_server/_start.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("x-brokerchain-website.run");
-    log.variable("input", input);
-    try {
-        if (input.build) {
-            await build(
-                log,
-                {},
-                {
-                    ok: () => {
-                        // ignore
-                    },
-                    fail: (err) => {
-                        throw err;
-                    }
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
+    if (input.build) {
+        await build(
+            log,
+            {},
+            {
+                ok: () => {
+                    // ignore
+                },
+                fail: (err) => {
+                    throw err;
                 }
-            );
-        }
-
-        _start(log, {
-            host: input.host || "127.0.0.1", // local access only by default
-            http_port: input.http_port || 3000, // no root privileges required by default
-            https_port: input.https_port || 8443 // no root privileges required by default
-        });
-
-        await new Promise((resolve) => {
-            // never resolve
-        });
-
-        return cb.ok({});
-    } catch (err) {
-        log.print_unknown_error(err);
-        return cb.fail(err);
+            }
+        );
     }
+
+    _start(log, {
+        host: input.host,
+        http_port: input.http_port,
+        https_port: input.https_port
+    });
+
+    await new Promise((resolve) => {
+        // never resolve
+    });
+
+    return cb.ok({});
 }

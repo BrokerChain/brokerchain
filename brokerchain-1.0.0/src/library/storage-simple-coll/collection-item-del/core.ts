@@ -8,9 +8,7 @@ import { cache_collection_set } from "../cache-collection-set/export.js";
 import { disk_collection_item_del } from "../disk-collection-item-del/export.js";
 import { queue_add } from "../_queue/index.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("storage-simple-coll.collection-item-del");
-    log.variable("input", input);
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     const { namespace, key, item_id } = input;
 
     try {

@@ -6,9 +6,7 @@ import * as website from "../../x-brokerchain-website/export.js";
 import * as dashboard from "../../x-brokerchain-dashboard/export.js";
 import * as crypto from "../../x-brokerchain-crypto/export.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("x-brokerchain-node.run");
-    log.variable("input", input);
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     try {
         await website.build(
             log,

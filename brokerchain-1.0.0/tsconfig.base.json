@@ -11,7 +11,7 @@
         "skipLibCheck": true,
         "strict": false,
         "noImplicitReturns": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "noImplicitThis": true,
         "noFallthroughCasesInSwitch": true,
         "noUnusedParameters": false,

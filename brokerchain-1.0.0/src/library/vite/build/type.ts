@@ -8,6 +8,7 @@ export interface Input {
     tailwindcss?: { [key: string]: any };
     out_dir: string;
     empty_out_dir?: boolean;
+    output_filename_pattern?: { entry_filename: string };
 }
 
 export interface OutputOk {}
@@ -34,6 +35,7 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
             if (field === "tailwindcss") return;
             if (field === "out_dir") return;
             if (field === "empty_out_dir") return;
+            if (field === "output_filename_pattern") return;
             throw new Error("v contains unknown field: " + field);
         });
 
@@ -83,7 +85,7 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
             Object.keys(v.tailwindcss).forEach((field) => {
                 // a dynamic field, check it (FIXME log message is not clear)
 
-                log.println("v.tailwindcss.field must be any (ignore)");
+                log.println("v.tailwindcss[field] must be any (ignore)");
             });
         }
 
@@ -96,6 +98,23 @@ export function check_input<R>(plog: Logger, v: any, cb: { ok: () => R; fail: (e
             log.println("v.empty_out_dir must be boolean");
             if (typeof v.empty_out_dir !== "boolean") {
                 throw new Error("v.empty_out_dir is not boolean");
+            }
+        }
+
+        if (v.output_filename_pattern !== undefined) {
+            log.println("v.output_filename_pattern must be object");
+            if (typeof v.output_filename_pattern !== "object" || v.output_filename_pattern === null) {
+                throw new Error("v.output_filename_pattern is not object");
+            }
+
+            Object.keys(v.output_filename_pattern).forEach((field) => {
+                if (field === "entry_filename") return;
+                throw new Error("v.output_filename_pattern contains unknown field: " + field);
+            });
+
+            log.println("v.output_filename_pattern.entry_filename must be string");
+            if (typeof v.output_filename_pattern.entry_filename !== "string") {
+                throw new Error("v.output_filename_pattern.entry_filename is not string");
             }
         }
     } catch (err) {

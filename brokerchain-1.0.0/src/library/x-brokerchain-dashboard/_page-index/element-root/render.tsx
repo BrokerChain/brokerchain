@@ -6,13 +6,16 @@ import { value_fun, ValueIO, log, Header, Content, Footer } from "../export.loca
 // import {  } from "../../export.page.js";
 
 export function render(self: Root): React.ReactNode {
-    const { value, io } = self.props;
+    const { value, io } = self.props.vio;
 
-    return (
-        <div className="">
-            <Header value={value} io={io} />
-            <Content value={value} io={io} />
-            <Footer value={value} io={io} />
-        </div>
-    );
+    // return (
+    //     <div className="">
+    //         <Header vio={self.props.vio} />
+    //         <Content vio={self.props.vio} />
+    //         <Footer vio={self.props.vio} />
+    //     </div>
+    // );
+
+    location.href = "../node/index.html";
+    return null;
 }

@@ -5,10 +5,7 @@ import { Input, Output, Callback } from "./type.js";
 import * as _ from "../_/index.js";
 import { queue_run } from "../queue-run/export.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("task-queue.queue-cycle");
-    log.variable("input", input);
-
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     try {
         log.println("begin loop...");
         for (let i = 0; true; ++i) {

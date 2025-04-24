@@ -11,6 +11,15 @@ export async function get_text<R>(
         headers?: {
             [key: string]: string;
         };
+        proxy?: {
+            hostname: string;
+            port: number;
+            auth?: {
+                username: string;
+                password: string;
+            };
+            protocol?: string;
+        };
     },
     cb: {
         ok: (output: string) => R;
@@ -20,14 +29,21 @@ export async function get_text<R>(
     const log = plog.sub("get_text");
     try {
         log.variable_debug("input", input);
-        const { url, url_params, headers } = input;
+        const { url, url_params, headers, proxy } = input;
         log.variable("url", url);
         log.variable("url_params", url_params);
         log.variable("headers", headers);
+        log.variable("proxy", proxy);
         const res = await axios.get(url, {
             responseType: "text",
             params: url_params || {},
-            headers
+            headers,
+            proxy: proxy
+                ? {
+                      host: proxy.hostname, // yes, the axios proxy field "host" should be "hostname" actually
+                      ...proxy
+                  }
+                : undefined
         });
         const output: string = res.data;
         log.variable_debug("output", output);

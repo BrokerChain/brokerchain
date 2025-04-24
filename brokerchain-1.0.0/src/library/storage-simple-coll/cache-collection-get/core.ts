@@ -4,9 +4,7 @@ import { Logger } from "../../../myutils/logger.js";
 import { Input, Output, Callback, copy_output } from "./type.js";
 import { cache_obj } from "../_cache/index.js";
 
-export async function core<R>(plog: Logger, input: Input, cb: Callback<R>): Promise<R> {
-    const log = plog.sub("storage-simple-coll.cache-collection-get");
-    log.variable("input", input);
+export async function core<R>(log: Logger, input: Input, cb: Callback<R>): Promise<R> {
     const { namespace, key } = input;
     const v = cache_obj[namespace] && cache_obj[namespace][key];
     if (v) {

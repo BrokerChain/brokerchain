@@ -7,6 +7,13 @@ import * as _value_fun from "./value/index.js";
 export const index_value_fun = _value_fun;
 
 export { Root as IndexRoot } from "./element-root/index.js";
+export { RootWrapper as IndexRootWrapper } from "./element-root/wrapper.js";
+export { RootWrapper as Index } from "./element-root/wrapper.js";
 export { Header as IndexHeader } from "./element-header/index.js";
+export { HeaderWrapper as IndexHeaderWrapper } from "./element-header/wrapper.js";
+
 export { Content as IndexContent } from "./element-content/index.js";
+export { ContentWrapper as IndexContentWrapper } from "./element-content/wrapper.js";
+
 export { Footer as IndexFooter } from "./element-footer/index.js";
+export { FooterWrapper as IndexFooterWrapper } from "./element-footer/wrapper.js";

@@ -6,15 +6,13 @@ import { queue_collection_load } from "../queue-collection-load/export.js";
 import { Item } from "../_type/index.js";
 
 export async function core<R>(
-    plog: Logger,
+    log: Logger,
     input: Input & {
         filter?: (item: Item) => boolean;
         sort?: (a: Item, b: Item) => number;
     },
     cb: Callback<R>
 ): Promise<R> {
-    const log = plog.sub("storage-simple-coll.collection-get");
-    log.variable("input", input);
     const { namespace, key, filter, sort } = input;
     return await queue_collection_load(
         log,
